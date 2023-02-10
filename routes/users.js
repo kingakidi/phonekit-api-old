@@ -10,7 +10,7 @@ const {
 const {
   create_user,
   update_user,
-} = require("../middlewares/validation.middlewares");
+} = require("../middlewares/validation/user.validation");
 
 router.get("/", index);
 router.put("/:id", update_user, update);

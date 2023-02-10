@@ -1,5 +1,10 @@
 const express = require("express");
 const router = express.Router();
+
+const {
+  create_plan,
+  update_plan,
+} = require("../middlewares/validation/plan.validation");
 const {
   index,
   update,
@@ -9,7 +14,7 @@ const {
 
 router.get("/", index);
 router.get("/:id", update_by_id);
-router.post("/", store);
-router.put("/:id", update);
+router.post("/", create_plan, store);
+router.put("/:id", update_plan, update);
 
 module.exports = router;
