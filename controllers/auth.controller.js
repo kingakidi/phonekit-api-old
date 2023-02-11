@@ -1,13 +1,49 @@
 const db = require("../helpers/database");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+
 exports.login = async (req, res) => {
   try {
     // check if the email exist
+    const { email, password } = req.body;
     const isUser = await db.query("SELECT * FROM profile WHERE email = ?", [
-      req.body.email,
+      email,
     ]);
 
-    if (isUser) {
+    if (isUser[0].length > 0) {
       //verify user password, and generate jwt token
+      const user = isUser[0];
+      const db_password = user.password;
+
+      bcrypt.compare(password, db_password, function (err, result) {
+        if (!result)
+          return res.status(400).send({
+            status: "failed",
+            message: "Invalid password",
+          });
+
+        const payload = {
+          fullname: user.fullname,
+          permissionId: user.permissionId,
+          userId: user.id,
+        };
+
+        const token = jwt.sign(payload, process.env.SECRET);
+
+        return res.status(200).send({
+          status: "success",
+          message: "login successfully",
+
+          data: {
+            user: {
+              fullname: user.fullname,
+              permissionId: user.permissionId,
+              userId: user.id,
+            },
+            token,
+          },
+        });
+      });
     } else {
       return res.status(400).json({
         status: 400,

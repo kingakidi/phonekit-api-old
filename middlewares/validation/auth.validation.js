@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-exports.auth_login = async () => {
+exports.auth_login = async (req, res, next) => {
   // check if the inputs are complates,
   const schema = Joi.object({
     email: Joi.string().email().required(),

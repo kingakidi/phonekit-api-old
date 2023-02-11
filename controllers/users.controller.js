@@ -2,7 +2,7 @@ const userServices = require("../services/users.service");
 
 exports.index = async (req, res) => {
   const users = await userServices.getUsers();
-  res.status(200).json(users);
+  return res.status(200).json(users);
 };
 
 exports.getById = async (req, res) => {
@@ -27,14 +27,32 @@ exports.update = async (req, res) => {
 exports.destroy = async (req, res) => {
   let id = req.params.id;
   const user = await userServices.destroy(id);
-  console.log(user);
+
+  if (user) {
+    return res.status(204).json({
+      status: 204,
+      message: "Users deleted successfully",
+    });
+  } else {
+    return res.status(400).json({});
+  }
 };
 
 exports.store = async (req, res) => {
   try {
-    const response = await userServices.createUser(req.body);
+    // Check email existence
+    const isEmail = await userServices.getUserByEmail(req.body.email);
 
-    if (response) res.status(201).json(response);
+    if (isEmail.length > 0) {
+      return res.status(400).json({
+        status: 400,
+        message: "Email already exist",
+      });
+    } else {
+      const response = await userServices.createUser(req.body);
+
+      if (response) return res.status(201).json(response);
+    }
   } catch (error) {
     console.log(error.message);
     res.status(500).json({
