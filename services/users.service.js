@@ -16,6 +16,23 @@ class UserServices {
         console.log(error.message);
       });
   }
+  async getUsersFilter() {
+    return db
+      .query(
+        "SELECT id, name, email, phone, credit, packages, location FROM profile"
+      )
+      .then((data) => {
+        if (data[0].length > 0) {
+          return data[0];
+        } else {
+          return "No user found ";
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
+  async getUserFilter() {}
   async getById(id) {
     let users = db
       .query("SELECT * FROM profile WHERE id =?", [id])

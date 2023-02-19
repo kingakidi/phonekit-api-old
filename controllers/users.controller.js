@@ -4,7 +4,10 @@ exports.index = async (req, res) => {
   const users = await userServices.getUsers();
   return res.status(200).json(users);
 };
-
+exports.filter_user = async (req, res) => {
+  const users = await userServices.getUserFilter();
+  return res.status(200).json(users);
+};
 exports.getById = async (req, res) => {
   let id = req.params.id;
   const user = await userServices.getById(id);
