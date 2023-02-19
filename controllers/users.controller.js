@@ -5,7 +5,7 @@ exports.index = async (req, res) => {
   return res.status(200).json(users);
 };
 exports.filter_user = async (req, res) => {
-  const users = await userServices.getUserFilter();
+  const users = await userServices.getUsersFilter();
   return res.status(200).json(users);
 };
 exports.getById = async (req, res) => {
