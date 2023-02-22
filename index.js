@@ -22,10 +22,13 @@ app.use(function (req, res, next) {
 const users = require("./routes/users");
 const plans = require("./routes/plans");
 const auth = require("./routes/auth");
+const domains = require("./routes/domains");
 
 app.use("/users", users);
 app.use("/plans", plans);
 app.use("/auth", auth);
+app.use("/domains", domains);
+
 app.get("*", function (req, res) {
   res.status(500).send("Invalid Endpoint");
 });

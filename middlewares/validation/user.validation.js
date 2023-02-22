@@ -5,13 +5,14 @@ exports.create_user = async (req, res, next) => {
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
-    phone: Joi.string().required(),
-    credit: Joi.string().required(),
-    endpoint: Joi.string().uri().required(),
-    auto_recharge: Joi.string().required(),
-    onboarding: Joi.string().required(),
-    network: Joi.string().required(),
-    smtp: Joi.string().required(),
+    phone: Joi.number().required(),
+    credit: Joi.number().required(),
+    endpoint: Joi.string().uri(),
+    auto_recharge: Joi.string(),
+    onboarding: Joi.string(),
+    network: Joi.string(),
+    location: Joi.string(),
+    smtp: Joi.string(),
   });
 
   const { error } = schema.validate(req.body);

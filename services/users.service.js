@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 class UserServices {
   async getUsers() {
     return db
-      .query("SELECT * FROM profile")
+      .query("SELECT * FROM profile ORDER BY id DESC")
       .then((data) => {
         if (data[0].length > 0) {
           return data[0];
@@ -103,7 +103,7 @@ class UserServices {
     });
 
     const result = await db.query(
-      "INSERT INTO `profile`(`token`,  `name`, `email`, `phone`,  `password`,  `credit`, `auto_recharge`, `onboarding`, `network`, `smtp`)VALUES(?,?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO `profile`(`token`,  `name`, `email`, `phone`,  `password`) VALUES(?,?,?,?,?)",
       [
         token,
         name,
