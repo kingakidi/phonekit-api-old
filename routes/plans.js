@@ -10,10 +10,11 @@ const {
   update,
   store,
   update_by_id,
+  plan_by_id,
 } = require("../controllers/plan.controler");
 
 router.get("/", index);
-router.get("/:id", update_by_id);
+router.get("/:id", plan_by_id);
 router.post("/", create_plan, store);
 router.put("/:id", update_plan, update);
 

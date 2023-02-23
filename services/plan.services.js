@@ -13,7 +13,7 @@ class PlanServices {
   async getPlanById(id) {
     const plan = await db.query("SELECT * FROM plans WHERE id = ?", [id]);
     if (plan[0]) {
-      return plan;
+      return plan[0];
     } else {
       return "Something went wrong";
     }

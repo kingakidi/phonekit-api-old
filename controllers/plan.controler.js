@@ -24,7 +24,8 @@ exports.update = async (req, res) => {
     if (response) {
       return res.status(200).json({
         status: 200,
-        message: response,
+        data: response,
+        message: "Plan updated successfully",
       });
     }
   } catch (error) {
@@ -81,7 +82,29 @@ exports.update_by_id = async (req, res) => {
     if (response) {
       return res.status(201).json({
         status: 201,
-        message: response,
+        data: response,
+        message: "Plan updated successfully",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      status: 500,
+      message: "Something went wrong",
+    });
+  }
+};
+
+exports.plan_by_id = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const response = await planServices.getPlanById(id);
+
+    if (response) {
+      return res.status(201).json({
+        status: 201,
+        message: "plans fetch succesfully",
+        data: response[0],
       });
     }
   } catch (error) {

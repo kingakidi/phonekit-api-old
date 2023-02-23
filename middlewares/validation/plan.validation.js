@@ -7,7 +7,7 @@ exports.create_plan = async (req, res, next) => {
     name: Joi.string().required(),
     description: Joi.string().required(),
     rules: Joi.string().required(),
-    price: Joi.string().required(),
+    price: Joi.number().required(),
   });
 
   const { error } = schema.validate(req.body);
