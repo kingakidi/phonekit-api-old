@@ -1,3 +1,5 @@
+const db = require("../helpers/database");
+
 class DomainServices {
   getAllDomain() {}
 
