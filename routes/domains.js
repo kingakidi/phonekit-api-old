@@ -18,6 +18,7 @@ router.get("/domain_name/:name", get_by_name);
 router.get("/:id", single);
 
 router.post("/", create_domain, store);
-router.put("/:id", update);
+router.put("/:id", create_domain, update);
+router.delete("/:id", destroy);
 
 module.exports = router;
