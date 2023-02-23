@@ -19,9 +19,40 @@ exports.update = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const response = await userServices.update(id, req.body);
+    // if the user email is the same, proceeds,
+    // if different check if it already exist
+    const userDetails = await userServices.getById(id);
 
-    return res.status(200).json(response);
+    if (
+      userDetails[0].email.trim().toLowerCase() !==
+      req.body.email.trim().toLowerCase()
+    ) {
+      // Check if email already exist
+      const checkEmail = await userServices.getUserByEmail(req.body.email);
+
+      if (checkEmail.length <= 0) {
+        const response = await userServices.update(id, req.body);
+
+        return res.status(200).json({
+          status: 200,
+          message: "user updated successfully",
+          data: response,
+        });
+      } else {
+        return res.status(400).json({
+          status: 400,
+          message: "email already exist on another account",
+        });
+      }
+    } else {
+      const response = await userServices.update(id, req.body);
+
+      return res.status(200).json({
+        status: 200,
+        message: "user updated successfully",
+        data: response,
+      });
+    }
   } catch (error) {
     console.log(error.message);
     res.status(500).send("something went wrong");

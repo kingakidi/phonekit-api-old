@@ -34,13 +34,14 @@ exports.update_user = async (req, res, next) => {
     email: Joi.string().email().required(),
     phone: Joi.string().required(),
 
-    credit: Joi.number().required(),
-    endpoint: Joi.string().required(),
-    auto_recharge: Joi.string().required(),
-    onboarding: Joi.string().required(),
+    credit: Joi.number(),
+    endpoint: Joi.string(),
+    auto_recharge: Joi.string(),
+    onboarding: Joi.string(),
+    password: Joi.string(),
 
-    network: Joi.string().required(),
-    smtp: Joi.string().required(),
+    network: Joi.string(),
+    smtp: Joi.string(),
   });
 
   const { error } = schema.validate(req.body);
