@@ -6,11 +6,18 @@ const {
   update,
   destroy,
   store,
+  single,
+  get_by_name,
 } = require("../controllers/domains.controller");
 
+const {
+  create_domain,
+} = require("../middlewares/validation/domain.validation");
 router.get("/", index);
-router.get("/:id", index);
-router.post("/", store);
+router.get("/domain_name/:name", get_by_name);
+router.get("/:id", single);
+
+router.post("/", create_domain, store);
 router.put("/:id", update);
 
 module.exports = router;

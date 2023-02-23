@@ -47,6 +47,13 @@ class UserServices {
     return users;
   }
 
+  async getUserById(id) {
+    let users = await db.query("SELECT * FROM profile WHERE id =?", [id]);
+
+    if (users) {
+      return users[0];
+    }
+  }
   async getUserByEmail(email) {
     let user = db
       .query("SELECT * FROM profile WHERE email = ?", [email])
