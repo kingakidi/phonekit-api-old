@@ -9,8 +9,8 @@ const {
 } = require("../controllers/domains.controller");
 
 router.get("/", index);
-router.get("/:id", update_by_id);
+router.get("/:id", index);
 router.post("/", store);
-router.put("/:id", update_plan, update);
+router.put("/:id", update);
 
 module.exports = router;
