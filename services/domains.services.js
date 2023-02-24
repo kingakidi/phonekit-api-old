@@ -2,7 +2,9 @@ const db = require("../helpers/database");
 
 class DomainServices {
   async getAllDomain() {
-    const domains = await db.query("SELECT * FROM domains");
+    const domains = await db.query(
+      "SELECT profile.email as email, domains.id as id, domains.domain as domain, domains.user_id as user_id FROM `domains` JOIN profile WHERE domains.user_id = profile.id ORDER BY domains.id DESC;"
+    );
     if (domains[0]) {
       if (domains[0]) return domains[0];
     } else {

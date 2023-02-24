@@ -34,10 +34,22 @@ exports.single = async (req, res) => {
     const response = await domainServices.getDomainById(id);
 
     if (response && response.length > 0) {
+      // get the user details
+      const { user_id } = response[0];
+      const domainUserRequest = await userServices.getUserById(user_id);
+      const domainUser = domainUserRequest[0];
+
       return res.status(200).json({
         status: true,
         message: "Domains fetch successfully",
-        data: response,
+        data: [
+          {
+            user_id: response[0].user_id,
+            domain: response[0].domain,
+            email: domainUser.email,
+            id: response[0].id,
+          },
+        ],
       });
     } else {
       return res.status(200).json({
@@ -83,13 +95,18 @@ exports.get_by_name = async (req, res) => {
 exports.store = async (req, res) => {
   try {
     // check the user id
-    const { user_id } = req.body;
+
+    // check the user by email
+
+    const { email } = req.body;
 
     // check if user have a domain, then replace
-
-    const isUser = await userServices.getUserById(user_id);
+    const isUser = await userServices.getUserByEmail(email);
 
     if (isUser.length > 0) {
+      req.body.user_id = isUser[0].id;
+      delete req.body.email;
+
       const response = await domainServices.postDomain(req.body);
 
       if (response) {
@@ -107,7 +124,7 @@ exports.store = async (req, res) => {
     } else {
       return res.status(400).json({
         status: true,
-        message: "invalid user id ",
+        message: "email doest not exist on the system",
         data: [],
       });
     }
